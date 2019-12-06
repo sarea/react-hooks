@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import UserForm from './components/userForm';
+import Welcome from './components/welcome';
+import UserPosts from './components/userPosts';
 import './App.css';
 
 function App() {
+  const [showUserForm, setShowUserForm] = useState(true);
+  const [userInfo, setUserInfo] = useState('');
+
+  const handleSubmitChange = ({firstName, lastName}) => {
+    setShowUserForm(false);
+    setUserInfo(`${firstName} ${lastName}`)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {showUserForm && <UserForm onSubmitForm={(data) => handleSubmitChange(data)} />}
+      {showUserForm === false && <Welcome userInfo={userInfo} />}
+      {showUserForm === false && <UserPosts />}
     </div>
   );
 }
